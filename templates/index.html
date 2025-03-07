@@ -2,26 +2,66 @@
 <html>
 <head>
     <title>Recipe Recommender</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            color: #28a745; /* Green color */
+            text-align: center;
+        }
+
+        h2 {
+            color: #495057;
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        strong {
+            color: #007bff;
+        }
+
+        .expiring {
+            font-style: italic;
+            color: #dc3545; /* Red color for expiring items */
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Recipe Recommendations</h1>
-
-    <form method="post">
-        <h2>Select Inventory Items:</h2>
-        {% for item in inventory %}
-            <input type="checkbox" id="{{ item }}" name="inventory_items" value="{{ item }}">
-            <label for="{{ item }}">{{ item }}</label><br>
-        {% endfor %}
-        <button type="submit">Get Recommendations</button>
-    </form>
-
+    <h1>Shelf Life Hero</h1>
+    <h2>To Reduce Food Waste, We Recommend These Recipes:</h2>
     {% if recommendations %}
-        <h2>Recommended Recipes:</h2>
         <ul>
-            {% for recipe, score in recommendations %}
-                <li>{{ recipe }} (Score: {{ "%.2f"|format(score) }} )</li>
+            {% for recipe in recommendations %}
+                <li>
+                    <strong>{{ recipe.name }}</strong><br>
+                    {% if recipe.expiring_ingredients != "No expiring ingredients (within the next 14 days) in this recipe." %}
+                        <span class="expiring">Expiring Ingredients: {{ recipe.expiring_ingredients }}</span>
+                    {% else %}
+                        {{ recipe.expiring_ingredients }}
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
+    {% else %}
+        <p>No recipes found.</p>
     {% endif %}
 </body>
 </html>
