@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Recommender</title>
+</head>
+<body>
+    <h1>Recipe Recommendations</h1>
+
+    <form method="post">
+        <h2>Select Inventory Items:</h2>
+        {% for item in inventory %}
+            <input type="checkbox" id="{{ item }}" name="inventory_items" value="{{ item }}">
+            <label for="{{ item }}">{{ item }}</label><br>
+        {% endfor %}
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if recommendations %}
+        <h2>Recommended Recipes:</h2>
+        <ul>
+            {% for recipe, score in recommendations %}
+                <li>{{ recipe }} (Score: {{ "%.2f"|format(score) }} )</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
